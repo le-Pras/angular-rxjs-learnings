@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { name$, storeDataOnServer, storedataOnServerError } from './external';
 import { Observable } from 'rxjs';
+import { ajax } from 'rxjs/ajax';
 
 //Basics of Observable Observers and subscription
 // name$.subscribe((value) => console.log(value));
@@ -68,6 +69,7 @@ import { Observable } from 'rxjs';
 
 //unSubscription in detail
 
+/*
 const interval$ = new Observable<number>((sub) => {
   let count = 1;
   const setIntervalId = setInterval(() => {
@@ -85,6 +87,18 @@ setTimeout(() => {
   console.log('unsub');
   subscription.unsubscribe();
 }, 7000);
+
+*/
+//Cold Observable
+const ajax$ = ajax<any>('https://random-data-api.com/api/v2/beers');
+
+ajax$.subscribe((data) => console.log('sub 1', data.response.brand));
+ajax$.subscribe((data) => console.log('sub 2', data.response.brand));
+ajax$.subscribe((data) => console.log('sub 3', data.response.brand));
+ajax$.subscribe((data) => console.log('sub 4', data.response.brand));
+
+//Hot Observable
+
 @Component({
   selector: 'my-app',
   standalone: true,
