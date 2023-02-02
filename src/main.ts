@@ -39,17 +39,43 @@ import { Observable } from 'rxjs';
 //   subscription.unsubscribe();
 // }, 3000);
 
-//Value emission
+//Value emission (subscription life cycle)
 
-const obs$ = new Observable<string>((sub) => {
-  console.log('Observale executed');
-  sub.next('Alice');
+// const obs$ = new Observable<string>((sub) => {
+//   console.log('Observale executed');
+//   sub.next('Alice');
+//   sub.next('Ben');
+//   setTimeout(() => {
+//     sub.next('charlie');
+//     //complete notification
+//     // sub.complete();
+//   }, 2000);
+
+//   setTimeout(() => sub.error(new Error('Failure')), 4000);
+//   //TearDown logic used for freeing up memory and other logical overflow issues
+//   return () => {
+//     console.log('teardown');
+//   };
+// });
+
+// console.log('before sub');
+// obs$.subscribe({
+//   next: (value) => console.log(value),
+//   error: (err) => console.log(err.message),
+//   complete: () => console.log('complete'),
+// });
+// console.log('after sub');
+
+//unSubscription in detail
+let count = 1;
+
+const interval$ = new Observable<number>((sub) => {
+  setInterval(() => {
+    sub.next(count++);
+  }, 2000);
 });
 
-console.log('before sub');
-obs$.subscribe((value) => console.log(value));
-console.log('after sub');
-
+interval$.subscribe((value) => console.log(value));
 @Component({
   selector: 'my-app',
   standalone: true,
