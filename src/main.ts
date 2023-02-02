@@ -67,12 +67,16 @@ import { Observable } from 'rxjs';
 // console.log('after sub');
 
 //unSubscription in detail
-let count = 1;
 
 const interval$ = new Observable<number>((sub) => {
-  setInterval(() => {
+  let count = 1;
+  const setIntervalId = setInterval(() => {
     sub.next(count++);
   }, 2000);
+
+  return () => {
+    clearInterval(setIntervalId);
+  };
 });
 
 const subscription = interval$.subscribe((value) => console.log(value));
