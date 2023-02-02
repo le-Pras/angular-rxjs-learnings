@@ -24,13 +24,17 @@ const obs$ = new Observable<string>((sub) => {
 //   next: (value) => console.log(value),
 // };
 // obs$.subscribe(observer$);
-
-const subscription = obs$.subscribe((value) => console.log(value));
+console.log('sub 1');
+const subscription = obs$.subscribe((value) => console.log('sub 1', value));
 
 setTimeout(() => {
-  console.log('unsubscription happening');
-  subscription.unsubscribe();
-}, 3000);
+  obs$.subscribe((value) => console.log('sub 2', value));
+}, 1000);
+
+// setTimeout(() => {
+//   console.log('unsubscription happening');
+//   subscription.unsubscribe();
+// }, 3000);
 
 @Component({
   selector: 'my-app',
