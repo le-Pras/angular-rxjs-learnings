@@ -75,7 +75,12 @@ const interval$ = new Observable<number>((sub) => {
   }, 2000);
 });
 
-interval$.subscribe((value) => console.log(value));
+const subscription = interval$.subscribe((value) => console.log(value));
+
+setTimeout(() => {
+  console.log('unsub');
+  subscription.unsubscribe();
+}, 7000);
 @Component({
   selector: 'my-app',
   standalone: true,
