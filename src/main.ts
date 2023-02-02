@@ -4,9 +4,9 @@ import { CommonModule } from '@angular/common';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { name$, storeDataOnServer, storedataOnServerError } from './external';
 
-// name$.subscribe((value) => console.log(value));
+name$.subscribe((value) => console.log(value));
 
-// storeDataOnServer('Some value').subscribe((value) => console.log(value));
+storeDataOnServer('Some value').subscribe((value) => console.log(value));
 
 storedataOnServerError('Some Error value').subscribe({
   next: (value) => console.log(value),
