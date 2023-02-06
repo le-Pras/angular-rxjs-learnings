@@ -99,6 +99,25 @@ ajax$.subscribe((data) => console.log('sub 4', data.response.brand));
 
 //Hot Observable
 
+const helloButton = document.querySelector('button#hello');
+
+console.log('button', helloButton);
+const helloClick$ = new Observable((sub) => {
+  helloButton.addEventListener('click', (event) => {
+    sub.next(event);
+  });
+});
+
+helloClick$.subscribe((event) => {
+  console.log('sub 1', event);
+});
+
+setTimeout(() => {
+  console.log('sub 2 starts');
+  helloClick$.subscribe((event) => {
+    console.log('sub2', event);
+  });
+}, 5000);
 @Component({
   selector: 'my-app',
   standalone: true,
