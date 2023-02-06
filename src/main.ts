@@ -90,16 +90,17 @@ setTimeout(() => {
 
 */
 //Cold Observable
-const ajax$ = ajax<any>('https://random-data-api.com/api/v2/beers');
+/* const ajax$ = ajax<any>('https://random-data-api.com/api/v2/beers');
 
 ajax$.subscribe((data) => console.log('sub 1', data.response.brand));
 ajax$.subscribe((data) => console.log('sub 2', data.response.brand));
 ajax$.subscribe((data) => console.log('sub 3', data.response.brand));
 ajax$.subscribe((data) => console.log('sub 4', data.response.brand));
 
+*/
 //Hot Observable
 
-const helloButton = document.querySelector('button#hello');
+/* const helloButton = document.querySelector('button#hello');
 
 console.log('button', helloButton);
 const helloClick$ = new Observable((sub) => {
@@ -118,6 +119,9 @@ setTimeout(() => {
     console.log('sub2', event);
   });
 }, 5000);
+
+*/
+
 @Component({
   selector: 'my-app',
   standalone: true,
