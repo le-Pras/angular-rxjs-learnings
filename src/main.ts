@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { name$, storeDataOnServer, storedataOnServerError } from './external';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 
 //Basics of Observable Observers and subscription
@@ -121,6 +121,40 @@ setTimeout(() => {
 }, 5000);
 
 */
+//Creational functions 
+//1) of
+of('Alice', 'Ben', 'Charlie').subscribe({
+  next: value => console.log(value),
+  complete: () => console.log('end...')
+})
+
+const observervable$ = new Observable(sub => {
+  sub.next('Alice');
+  sub.next('Ben');
+  sub.next('Charlie');
+  sub.complete();
+})
+
+observervable$.subscribe({
+  next: value => console.log(value),
+  complete: () => console.log('end...')
+})
+
+// using functions
+ownOwnOf('Alice', 'Ben', 'charlie').subscribe({
+  next: (val) => console.log(val),
+  complete: () => console.log('over...')
+})
+
+
+function ownOwnOf(...args: string[]) : Observable<string>{ 
+  return new Observable<string>(sub => {
+    for(let i = 0; i < args.length; i++) {
+      sub.next(args[i])
+    }
+    sub.complete();
+  })
+}
 
 @Component({
   selector: 'my-app',
@@ -138,3 +172,4 @@ export class App {
 }
 
 bootstrapApplication(App);
+
