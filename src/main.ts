@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { name$, storeDataOnServer, storedataOnServerError } from './external';
-import { from, Observable, of } from 'rxjs';
+import { from, fromEvent, Observable, of } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 
 //Basics of Observable Observers and subscription
@@ -175,6 +175,19 @@ observableFromPromises$.subscribe({
   complete: () => console.log('end')
 })
 */
+
+//3) fromEvent() - using rxjs method
+
+const helloButton = document.querySelector('button#hello');
+
+const subscription = fromEvent<MouseEvent>(helloButton, 'click').subscribe(
+  (event) => console.log(event.type, event.x, event.y)
+);
+
+setTimeout(() => {
+  console.log('unsubscribe');
+  subscription.unsubscribe();
+}, 5000);
 
 @Component({
   selector: 'my-app',
