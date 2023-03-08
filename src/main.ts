@@ -200,6 +200,10 @@ const helloButton$ = new Observable<MouseEvent>((sub) => {
   };
 
   helloButton.addEventListener('click', subEvent);
+
+  return () => {
+    helloButton.removeEventListener('click', subEvent);
+  };
 });
 
 const subscription = helloButton$.subscribe((event) =>
