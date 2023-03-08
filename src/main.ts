@@ -178,7 +178,7 @@ observableFromPromises$.subscribe({
 
 //3) fromEvent() - using rxjs method
 
-const helloButton = document.querySelector('button#hello');
+/*const helloButton = document.querySelector('button#hello');
 
 const subscription = fromEvent<MouseEvent>(helloButton, 'click').subscribe(
   (event) => console.log(event.type, event.x, event.y)
@@ -186,6 +186,28 @@ const subscription = fromEvent<MouseEvent>(helloButton, 'click').subscribe(
 
 setTimeout(() => {
   console.log('unsubscribe');
+  subscription.unsubscribe();
+}, 5000);
+*/
+
+//fromEvent - using observable and not using operators
+const helloButton = document.querySelector('button#hello');
+
+const helloButton$ = new Observable<MouseEvent>((sub) => {
+  const subEvent = (event) => {
+    console.log('event started');
+    sub.next(event);
+  };
+
+  helloButton.addEventListener('click', subEvent);
+});
+
+const subscription = helloButton$.subscribe((event) =>
+  console.log(event.type, event.x, event.y)
+);
+
+setTimeout(() => {
+  console.log('unsubs');
   subscription.unsubscribe();
 }, 5000);
 
