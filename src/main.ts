@@ -3,8 +3,16 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { name$, storeDataOnServer, storedataOnServerError } from './external';
-import { from, fromEvent, interval, Observable, of, timer } from 'rxjs';
-import { ajax } from 'rxjs/ajax';
+import {
+  forkJoin,
+  from,
+  fromEvent,
+  interval,
+  Observable,
+  of,
+  timer,
+} from 'rxjs';
+import { ajax, AjaxResponse } from 'rxjs/ajax';
 
 //Basics of Observable Observers and subscription
 // name$.subscribe((value) => console.log(value));
@@ -274,6 +282,57 @@ setTimeout(() => {
   console.log('unsub');
 }, 5000);
 */
+
+const randomNames$ = ajax('https://random-data-api.com/api/name/random_name');
+const randomNation$ = ajax(
+  'https://random-data-api.com/api/nation/random_nation'
+);
+const randomFood$ = ajax('https://random-data-api.com/api/food/random_food');
+
+/*
+randomNames$.subscribe((sub: AjaxResponse<any>) =>
+  console.log(sub.response.first_name)
+);
+randomNation$.subscribe((sub: AjaxResponse<any>) =>
+  console.log(sub.response.capital)
+);
+randomFood$.subscribe((sub: AjaxResponse<any>) =>
+  console.log(sub.response.dish)
+);
+*/
+
+//ForkJoin no error Scenario
+/*
+forkJoin([randomNames$, randomNation$, randomFood$]).subscribe(
+  ([nameAjax, nationAjax, foodAjax]: [
+    AjaxResponse<any>,
+    AjaxResponse<any>,
+    AjaxResponse<any>
+  ]) => {
+    console.log(
+      `${nameAjax.response.first_name} from ${nationAjax.response.capital} loves to eat ${foodAjax.response.dish}`
+    );
+  }
+);
+*/
+//ForkJoin error scenario
+const a$ = new Observable((sub) => {
+  setTimeout(() => {
+    sub.next('A');
+    sub.complete();
+  }, 3000);
+});
+
+const b$ = new Observable((sub) => {
+  setTimeout(() => {
+    sub.error('Failure!');
+  }, 5000);
+});
+
+forkJoin([a$, b$]).subscribe({
+  next: (value) => console.log(value),
+  error: (err) => console.log('err', err),
+});
 
 @Component({
   selector: 'my-app',
