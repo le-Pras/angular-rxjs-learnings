@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { name$, storeDataOnServer, storedataOnServerError } from './external';
-import { from, fromEvent, Observable, of, timer } from 'rxjs';
+import { from, fromEvent, interval, Observable, of, timer } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 
 //Basics of Observable Observers and subscription
@@ -243,6 +243,36 @@ setTimeout(() => {
   console.log('unsub');
   subscription.unsubscribe();
 }, 1000);
+*/
+
+//interval()
+
+/* const interval$ = new Observable((sub) => {
+  let counter = 0;
+  const intervalId = setInterval(() => {
+    console.log('timeout');
+    sub.next(counter++);
+    sub.complete();
+  }, 1000);
+
+  return clearInterval(intervalId);
+});
+
+const subscription = interval$.subscribe({
+  next: (val) => console.log(val),
+});
+*/
+/*
+const subscription = interval(1000).subscribe({
+  next: (value) => console.log(value),
+  complete: () => console.log('completed'),
+});
+*/
+/*
+setTimeout(() => {
+  subscription.unsubscribe();
+  console.log('unsub');
+}, 5000);
 */
 
 @Component({
