@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { name$, storeDataOnServer, storedataOnServerError } from './external';
-import { from, fromEvent, Observable, of } from 'rxjs';
+import { from, fromEvent, Observable, of, timer } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 
 //Basics of Observable Observers and subscription
@@ -191,7 +191,7 @@ setTimeout(() => {
 */
 
 //fromEvent - using observable and not using operators
-const helloButton = document.querySelector('button#hello');
+/*const helloButton = document.querySelector('button#hello');
 
 const helloButton$ = new Observable<MouseEvent>((sub) => {
   const subEvent = (event) => {
@@ -214,6 +214,34 @@ setTimeout(() => {
   console.log('unsubs');
   subscription.unsubscribe();
 }, 5000);
+*/
+
+//timer in rxjs
+
+const timer$ = new Observable<number>((sub) => {
+  const timeOut = setTimeout(() => {
+    sub.next(0);
+    sub.complete();
+  }, 2000);
+
+  return clearTimeout(timeOut);
+});
+
+const subscription = timer$.subscribe((subscribed) => {
+  console.log('sub', subscribed);
+});
+
+/*
+const subscription = timer(2000).subscribe({
+  next: (value) => console.log(value),
+  complete: () => console.log('complete'),
+});
+*/
+
+setTimeout(() => {
+  console.log('unsub');
+  subscription.unsubscribe();
+}, 1000);
 
 @Component({
   selector: 'my-app',
