@@ -217,7 +217,7 @@ setTimeout(() => {
 */
 
 //timer in rxjs
-
+/*
 const timer$ = new Observable<number>((sub) => {
   const timeOut = setTimeout(() => {
     sub.next(0);
@@ -227,21 +227,23 @@ const timer$ = new Observable<number>((sub) => {
   return clearTimeout(timeOut);
 });
 
+
 const subscription = timer$.subscribe((subscribed) => {
   console.log('sub', subscribed);
 });
-
+*/
 /*
 const subscription = timer(2000).subscribe({
   next: (value) => console.log(value),
   complete: () => console.log('complete'),
 });
 */
-
+/*
 setTimeout(() => {
   console.log('unsub');
   subscription.unsubscribe();
 }, 1000);
+*/
 
 @Component({
   selector: 'my-app',
