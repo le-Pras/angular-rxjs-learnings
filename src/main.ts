@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { name$, storeDataOnServer, storedataOnServerError } from './external';
 import {
+  combineLatest,
   forkJoin,
   from,
   fromEvent,
@@ -316,7 +317,7 @@ forkJoin([randomNames$, randomNation$, randomFood$]).subscribe(
 );
 */
 //ForkJoin error scenario
-const a$ = new Observable((sub) => {
+/*const a$ = new Observable((sub) => {
   setTimeout(() => {
     sub.next('A');
     sub.complete();
@@ -333,6 +334,36 @@ forkJoin([a$, b$]).subscribe({
   next: (value) => console.log(value),
   error: (err) => console.log('err', err),
 });
+*/
+
+//combineLatest with example
+
+const temperatureInput = document.getElementById('temperature-input');
+const conversionDropdown = document.getElementById('conversion-dropdown');
+const resultText = document.getElementById('result-text');
+
+const temperatureInputEvent$ = fromEvent(temperatureInput, 'input');
+const conversionInputEvent$ = fromEvent(conversionDropdown, 'input');
+
+combineLatest([temperatureInputEvent$, conversionInputEvent$]).subscribe(
+  ([temperature, conversion]) => {
+    const temp = Number(temperature.target['value']);
+    const conv = conversion.target['value'];
+
+    let result: number;
+    if (conv === 'f-to-c') {
+      result = ((temp - 32) * 5) / 9;
+    } else if (conv === 'c-to-f') {
+      result = (temp * 9) / 5 + 32;
+    }
+    resultText.innerText = String(result);
+    console.log(
+      'temperature, conversion',
+      temperature.target['value'],
+      conversion.target['value']
+    );
+  }
+);
 
 @Component({
   selector: 'my-app',
