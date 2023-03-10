@@ -283,13 +283,13 @@ setTimeout(() => {
   console.log('unsub');
 }, 5000);
 */
-
+/*
 const randomNames$ = ajax('https://random-data-api.com/api/name/random_name');
 const randomNation$ = ajax(
   'https://random-data-api.com/api/nation/random_nation'
 );
 const randomFood$ = ajax('https://random-data-api.com/api/food/random_food');
-
+*/
 /*
 randomNames$.subscribe((sub: AjaxResponse<any>) =>
   console.log(sub.response.first_name)
@@ -337,7 +337,7 @@ forkJoin([a$, b$]).subscribe({
 */
 
 //combineLatest with example
-
+/*
 const temperatureInput = document.getElementById('temperature-input');
 const conversionDropdown = document.getElementById('conversion-dropdown');
 const resultText = document.getElementById('result-text');
@@ -364,6 +364,7 @@ combineLatest([temperatureInputEvent$, conversionInputEvent$]).subscribe(
     );
   }
 );
+*/
 
 @Component({
   selector: 'my-app',
