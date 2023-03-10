@@ -5,6 +5,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { name$, storeDataOnServer, storedataOnServerError } from './external';
 import {
   combineLatest,
+  defer,
   forkJoin,
   from,
   fromEvent,
@@ -366,6 +367,13 @@ combineLatest([temperatureInputEvent$, conversionInputEvent$]).subscribe(
 );
 */
 
+//defer() creational pattern
+const getButton = document.getElementById('hello');
+const clickButton = defer(() => {
+  return Math.random() > 0.5 ? fromEvent(getButton, 'click') : interval(1000);
+});
+
+clickButton.subscribe((sub) => console.log(sub));
 @Component({
   selector: 'my-app',
   standalone: true,
