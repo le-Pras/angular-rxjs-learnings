@@ -6,10 +6,12 @@ import { name$, storeDataOnServer, storedataOnServerError } from './external';
 import {
   combineLatest,
   defer,
+  filter,
   forkJoin,
   from,
   fromEvent,
   interval,
+  map,
   Observable,
   of,
   timer,
@@ -368,12 +370,76 @@ combineLatest([temperatureInputEvent$, conversionInputEvent$]).subscribe(
 */
 
 //defer() creational pattern
+/*
 const getButton = document.getElementById('hello');
 const clickButton = defer(() => {
   return Math.random() > 0.5 ? fromEvent(getButton, 'click') : interval(1000);
 });
 
 clickButton.subscribe((sub) => console.log(sub));
+
+*/
+//Pipeable operators in rxjs
+//Filter operator rxjs
+/*
+interface NewsItem {
+  category: 'Business' | 'Sports';
+  content: string;
+}
+
+const newsFeed$ = new Observable<NewsItem>((sub) => {
+  setTimeout(() => {
+    sub.next({ category: 'Business', content: 'A' });
+  }, 1000);
+  setTimeout(() => {
+    sub.next({ category: 'Sports', content: 'B' });
+  }, 3000);
+  setTimeout(() => {
+    sub.next({ category: 'Business', content: 'C' });
+  }, 4000);
+  setTimeout(() => {
+    sub.next({ category: 'Sports', content: 'D' });
+  }, 5000);
+  setTimeout(() => {
+    sub.next({ category: 'Business', content: 'E' });
+  }, 6000);
+});
+
+const sportsNewsFeed = newsFeed$.pipe(
+  filter((item) => item.category === 'Sports')
+);
+newsFeed$.subscribe((news) => {
+  console.log(news);
+});
+*/
+
+//map operator
+
+const randomName$ = ajax(
+  'https://random-data-api.com/api/name/random_name'
+).pipe(map((name: AjaxResponse<any>) => name.response.first_name));
+const randomCity$ = ajax(
+  'https://random-data-api.com/api/nation/random_nation'
+).pipe(
+  map((nation: AjaxResponse<any>) => {
+    nation.response.capital;
+  })
+);
+const randomFood$ = ajax(
+  'https://random-data-api.com/api/food/random_food'
+).pipe(
+  map((dish: AjaxResponse<any>) => {
+    dish.response.dish;
+  })
+);
+
+forkJoin([randomName$, randomCity$, randomFood$]).subscribe(
+  ([randomName, randomCity, randomFood]) => {
+    console.log(
+      `${randomName} is from ${randomCity} loves to eat ${randomFood}`
+    );
+  }
+);
 @Component({
   selector: 'my-app',
   standalone: true,
